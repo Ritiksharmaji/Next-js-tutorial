@@ -9,6 +9,7 @@ export default function Home() {
         <UserName name="Priyanshu sharma"/>
       <main className={styles.main}>
        <h1>Home Page</h1>
+       <h2>normal</h2>
       </main>
      
     </div>
