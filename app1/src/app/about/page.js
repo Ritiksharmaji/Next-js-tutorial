@@ -14,6 +14,11 @@ const About = ()=>{
             <h2>Navigate throw the Navigater</h2>
             <button onClick={ ()=> router.push('/login')}>Login </button>
             <button onClick={ ()=> router.push('/')}>Home </button>
+            <br/>
+            <Link href="/about/aboutstudent" className="link"> About Student </Link>
+            <br/>
+            <br/>
+            <Link href="/about/aboutcollege" className="link"> About College </Link>
 
         </div>
     );
