@@ -1,9 +1,16 @@
 'use client';
-
+import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const navigation = (path)=>{
+   // router.push(`{/${path}}`);
+    router.push(path);
+  }
   return (
     <div className={styles.page}>
       <UserName />
@@ -16,6 +23,22 @@ export default function Home() {
        <button onClick={()=> alert("button CLicked please make sure to check propally")}>Click Here</button>
         <StateChange />
         <ChangeVariable />
+        {/* working with links  */}
+        <Link href="/about" className={styles.link}>
+          Go to About Page
+        </Link>
+        <Link href="/login" className={styles.link}>
+          Go to Login Page
+        </Link>
+        <h2> navigation throw the Navigater</h2>
+        {/* <button onClick={() => navigation('about')}>About Page</button>
+        <button onClick={() => navigation('login')}>Login Page</button> */}
+        {/* the ablove code will not work because we 
+        are using nextjs 13 app router */}
+        <button onClick={() => navigation('/about')}>About Page</button>
+        <button onClick={() => navigation('/login')}>Login Page</button>
+
+
       </main>
      
     </div>
