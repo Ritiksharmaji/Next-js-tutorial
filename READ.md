@@ -8,3 +8,9 @@
 1) ![alt text](image-1.png)
 2) 
 
+## --------- Next JS tutorial in Hindi #12 Dynamic Routing in next.js 13 ----- 
+1) ![alt text](image-2.png)
+2) ![alt text](image-3.png)
+3) ![alt text](image-4.png)
+
+
