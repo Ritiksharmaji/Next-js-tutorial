@@ -24,12 +24,12 @@ export default function Home() {
         <StateChange />
         <ChangeVariable />
         {/* working with links  */}
-        <Link href="/about" className={styles.link}>
+        {/* <Link href="/about" className={styles.link}>
           Go to About Page
         </Link>
         <Link href="/login" className={styles.link}>
           Go to Login Page
-        </Link>
+        </Link> */}
         <h2> navigation throw the Navigater</h2>
         {/* <button onClick={() => navigation('about')}>About Page</button>
         <button onClick={() => navigation('login')}>Login Page</button> */}
@@ -37,7 +37,11 @@ export default function Home() {
         are using nextjs 13 app router */}
         <button onClick={() => navigation('/about')}>About Page</button>
         <button onClick={() => navigation('/login')}>Login Page</button>
-
+        <div>
+          <Link href="/productlist" className={styles.link}>
+            Go to Product List Page
+          </Link>
+        </div>
 
       </main>
      
