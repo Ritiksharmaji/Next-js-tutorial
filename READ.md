@@ -52,3 +52,8 @@
 
 ## ----------------Next JS tutorial in Hindi #19 | Call API in Server component in next.js 13.4 ----
 1) ![alt text](image-17.png)
+
+## ------ Next JS tutorial in Hindi #20 | Use client component with server component in next.js 13.4 ---
+1) ![alt text](image-18.png)
+2) ![alt text](image-19.png)
+3)
