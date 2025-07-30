@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## ------ Next JS tutorial in Hindi #22 CSS Modules with Next.js 13.4 ------
+1) ![alt text](image.png)
+2) 
+In **Next.js**, you can use two main types of CSS:
 
-## Getting Started
+---
 
-First, run the development server:
+### 🔹 1. **Normal CSS (Global CSS)**
+
+### 🔹 2. **CSS Modules (Scoped CSS)**
+
+Let’s understand both in depth:
+
+---
+
+## ✅ 1. **Normal CSS (Global CSS)**
+
+### 📌 What is it?
+
+Global CSS is applied **to the entire application**. Styles are not scoped to specific components—just like traditional CSS.
+
+### 📁 Where do you put it?
+
+Usually in `styles/globals.css`, but you can have multiple global files.
+
+### 📥 How to use it?
+
+**a. Create a file:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+/styles/globals.css
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**b. Add styles:**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```css
+/* styles/globals.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+h1 {
+  color: red;
+}
+```
 
-## Learn More
+**c. Import it in `_app.js`:**
 
-To learn more about Next.js, take a look at the following resources:
+```js
+// pages/_app.js
+import '@/styles/globals.css';
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ⚠️ Key Points:
 
-## Deploy on Vercel
+* All components share the same styles.
+* Risk of **style conflicts** (e.g., multiple `h1` styles).
+* Great for utility, reset styles, fonts, etc.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✅ 2. **CSS Modules (Scoped CSS)**
+
+### 📌 What is it?
+
+CSS Modules allow you to write styles that are **scoped to a single component**. This prevents class name conflicts.
+
+### 🧠 How it works?
+
+Next.js automatically scopes the class names using **unique hashes**.
+
+### 📥 How to use it?
+
+**a. Create a file with `.module.css`:**
+
+```bash
+/components/Button.module.css
+```
+
+**b. Add styles:**
+
+```css
+/* Button.module.css */
+.button {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+```
+
+**c. Use it in the component:**
+
+```js
+// components/Button.jsx
+import styles from './Button.module.css';
+
+function Button() {
+  return <button className={styles.button}>Click Me</button>;
+}
+
+export default Button;
+```
+
+### ✅ Result:
+
+The class name in the browser becomes something like:
+
+```html
+<button class="Button_button__cS5GH">Click Me</button>
+```
+
+So styles are **component-specific** and **safe** from conflict.
+
+---
+
+## 🔍 Side-by-side Comparison
+
+| Feature          | Global CSS              | CSS Modules                |
+| ---------------- | ----------------------- | -------------------------- |
+| File extension   | `.css`                  | `.module.css`              |
+| Scope            | Global (entire app)     | Local (specific component) |
+| Risk of conflict | High                    | None                       |
+| Where to import  | `_app.js`               | Component directly         |
+| Usage style      | Class name directly     | `styles.className`         |
+| Use case         | Reset, fonts, utilities | Component styling          |
+
+---
+
+## ✅ Example Project Structure
+
+```
+/pages
+  _app.js
+  index.js
+
+/styles
+  globals.css
+
+/components
+  Button.jsx
+  Button.module.css
+```
+
+---
+
+## ✅ When to Use What?
+
+| Use Case                                | Recommended Style   |
+| --------------------------------------- | ------------------- |
+| Styling layout, body, fonts             | Global CSS          |
+| Styling individual components           | CSS Modules         |
+| Using utility-first CSS (like Tailwind) | Global (via import) |
+| Styling third-party UI libraries        | Global              |
+
+---
+
+## 🛑 Common Mistakes to Avoid
+
+1. **Importing `.module.css` in `_app.js`** – won’t work.
+2. **Using the wrong class name format** – e.g., writing `className="styles.button"` instead of `className={styles.button}`.
+3. **Using global CSS in dynamic imported components** – must be imported only once in `_app.js`.
+
+---
+
+If you’d like, I can give you a working Next.js example project showing both CSS types.
+
+
+### ----- Next JS tutorial in Hindi #23 Conditional style and CSS IN next.js 13.4----------
+1) ![alt text](image-1.png)
+2) 
