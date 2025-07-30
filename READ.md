@@ -45,3 +45,10 @@
 1) ![alt text](image-14.png)
 2) ![alt text](image-15.png)
 3) 
+
+# ---------- Next JS tutorial in Hindi #18 | fetch API data in Client component in next.js 13.4 --------
+1) ![alt text](image-16.png)
+2) 
+
+## ----------------Next JS tutorial in Hindi #19 | Call API in Server component in next.js 13.4 ----
+1) ![alt text](image-17.png)
