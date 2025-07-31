@@ -631,3 +631,10 @@ export async function generateMetadata({ params }) {
 You can also add a `robots.txt`, `sitemap.xml`, and structured data via `next-sitemap`.
 
 Would you like help setting up those too?
+
+
+
+## ------- Next JS tutorial in Hindi #27 Script component in next.js 13.4 --------
+
+1) ![alt text](image-13.png)
+2) if we use the html script tag in nex js then that will load the respective library in our project as fully means that library will appy on entire project  but while using script component of next js we can make a library to appy on specific page not on all the project page.
