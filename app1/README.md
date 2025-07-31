@@ -196,4 +196,438 @@ arise on server from where we are calling the font which make extra network call
 
 ## --------- Next JS tutorial in Hindi #26 generateMetadata for Dynamic meta data in next.js 13.4 --------
 1) ![alt text](image-12.png)
-2) 
+2) basically there is two types of meta data
+  - static meta data: which is already define for all the page as same and bydefault it is defined in layout page.
+  - Dynamic meta data: based on page define
+3) 
+In **Next.js**, metadata is crucial for **SEO (Search Engine Optimization)** and **social sharing**, as it helps define how a page appears in search engines and on social platforms.
+
+---
+
+## ✅ What is Metadata in Next.js?
+
+Metadata refers to HTML `<head>` elements like:
+
+* `<title>`
+* `<meta name="description">`
+* `<meta property="og:title">` (Open Graph for Facebook)
+* `<meta name="twitter:card">` (Twitter cards)
+* And more...
+
+---
+
+## 📌 Static Metadata in Next.js
+
+You can define metadata **statically** in a route file like `page.js` or `layout.js` using the `metadata` export.
+
+### Example:
+
+```js
+// app/about/page.js
+export const metadata = {
+  title: "About Us - MyApp",
+  description: "Learn more about our company and team.",
+};
+  
+export default function AboutPage() {
+  return <h1>About Page</h1>;
+}
+```
+
+### Result:
+
+This will inject the `<title>` and `<meta>` tags into the `<head>` of the HTML.
+
+---
+
+## ⚡ Dynamic Metadata in Next.js
+
+Use dynamic metadata when values depend on route parameters, API data, or other runtime logic.
+
+### Example using `generateMetadata()`:
+
+```js
+// app/blog/[slug]/page.js
+export async function generateMetadata({ params }) {
+  const post = await fetch(`https://example.com/api/posts/${params.slug}`).then(res => res.json());
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+  };
+}
+
+export default function BlogPost({ params }) {
+  return <h1>Post: {params.slug}</h1>;
+}
+```
+
+🔍 `generateMetadata` is an async function and gets `params`, `searchParams`, etc., which allows you to dynamically fetch data and return metadata.
+
+---
+
+## 🔄 Comparison
+
+| Feature       | Static Metadata            | Dynamic Metadata                           |
+| ------------- | -------------------------- | ------------------------------------------ |
+| Defined using | `export const metadata`    | `export async function generateMetadata()` |
+| Use case      | Static titles/descriptions | Dynamic routes, fetched content            |
+| SEO-friendly  | ✅                          | ✅ (even more powerful)                     |
+
+---
+
+## 📘 Good Practice
+
+* Use **static metadata** where possible for performance.
+* Use **dynamic metadata** for pages like blog posts, products, etc., where content is fetched dynamically.
+
+---
+
+Would you like an example with Open Graph and Twitter meta tags too?
+
+- yes:
+Here’s a complete example showing how to add **Open Graph** and **Twitter meta tags** in both **static** and **dynamic metadata** in Next.js:
+
+---
+
+## ✅ Static Metadata Example (in `page.js`)
+
+```js
+// app/about/page.js
+export const metadata = {
+  title: "About Us | MyCompany",
+  description: "Discover more about our mission, values, and team.",
+  openGraph: {
+    title: "About Us | MyCompany",
+    description: "Discover more about our mission, values, and team.",
+    url: "https://yourdomain.com/about",
+    siteName: "MyCompany",
+    images: [
+      {
+        url: "https://yourdomain.com/images/about-og.png",
+        width: 1200,
+        height: 630,
+        alt: "About Us Open Graph Image",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | MyCompany",
+    description: "Discover more about our mission, values, and team.",
+    images: ["https://yourdomain.com/images/about-og.png"],
+  },
+};
+
+export default function AboutPage() {
+  return <h1>About Us</h1>;
+}
+```
+
+---
+
+## ⚡ Dynamic Metadata Example (in `[slug]/page.js`)
+
+```js
+// app/blog/[slug]/page.js
+export async function generateMetadata({ params }) {
+  const post = await fetch(`https://yourapi.com/posts/${params.slug}`).then(res => res.json());
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://yourdomain.com/blog/${params.slug}`,
+      siteName: "MyBlog",
+      images: [
+        {
+          url: post.ogImage || "https://yourdomain.com/default-og.png",
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      type: "article",
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [post.ogImage || "https://yourdomain.com/default-og.png"],
+    },
+  };
+}
+
+export default function BlogPost({ params }) {
+  return <h1>Blog Post: {params.slug}</h1>;
+}
+```
+
+---
+
+## ✅ Bonus: Supported Metadata Fields in Next.js
+
+Here are some useful metadata keys:
+
+* `title`, `description`
+* `openGraph`:
+
+  * `url`, `type`, `images`, `siteName`, `publishedTime`
+* `twitter`:
+
+  * `card`, `title`, `description`, `images`
+* `robots`: `"index, follow"`
+* `icons`: `{ icon: '/favicon.ico' }`
+
+---
+
+Would you like me to show how this metadata appears in the actual HTML (`<head>`) output as well?
+
+- yes: 
+
+Great! Let's look at how **static** and **dynamic metadata** in Next.js translate into the actual HTML `<head>` section (i.e., what gets sent to the browser for SEO and sharing previews).
+
+---
+
+## ✅ 1. Static Metadata HTML Output Example
+
+When you define metadata in `page.js` like this:
+
+```js
+export const metadata = {
+  title: "About Us | MyCompany",
+  description: "Learn about our mission and values.",
+  openGraph: {
+    title: "About Us | MyCompany",
+    description: "Learn about our mission and values.",
+    url: "https://yourdomain.com/about",
+    siteName: "MyCompany",
+    images: [
+      {
+        url: "https://yourdomain.com/images/about-og.png",
+        width: 1200,
+        height: 630,
+        alt: "About Us Image",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | MyCompany",
+    description: "Learn about our mission and values.",
+    images: ["https://yourdomain.com/images/about-og.png"],
+  },
+};
+```
+
+👉 **It produces this in the HTML `<head>`**:
+
+```html
+<title>About Us | MyCompany</title>
+<meta name="description" content="Learn about our mission and values.">
+
+<!-- Open Graph tags -->
+<meta property="og:title" content="About Us | MyCompany">
+<meta property="og:description" content="Learn about our mission and values.">
+<meta property="og:url" content="https://yourdomain.com/about">
+<meta property="og:site_name" content="MyCompany">
+<meta property="og:image" content="https://yourdomain.com/images/about-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="About Us Image">
+<meta property="og:type" content="website">
+
+<!-- Twitter tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Us | MyCompany">
+<meta name="twitter:description" content="Learn about our mission and values.">
+<meta name="twitter:image" content="https://yourdomain.com/images/about-og.png">
+```
+
+---
+
+## ⚡ 2. Dynamic Metadata HTML Output Example
+
+If you're using dynamic metadata from an API like this:
+
+```js
+export async function generateMetadata({ params }) {
+  const post = await fetch(...).then(res => res.json());
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://yourdomain.com/blog/${params.slug}`,
+      images: [{ url: post.image }],
+      type: "article",
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+    },
+  };
+}
+```
+
+👉 The HTML output will **change dynamically per blog post**, for example:
+
+```html
+<title>How to Learn JavaScript Fast</title>
+<meta name="description" content="Get tips on mastering JS quickly.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="How to Learn JavaScript Fast">
+<meta property="og:description" content="Get tips on mastering JS quickly.">
+<meta property="og:url" content="https://yourdomain.com/blog/js-fast">
+<meta property="og:image" content="https://yourdomain.com/images/js-post.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2025-07-29T18:00:00Z">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Learn JavaScript Fast">
+<meta name="twitter:description" content="Get tips on mastering JS quickly.">
+<meta name="twitter:image" content="https://yourdomain.com/images/js-post.png">
+```
+
+---
+
+## 🧠 Why This Matters
+
+These `<meta>` tags help:
+
+* Improve **SEO**
+* Control how your page looks when **shared on social media**
+* Give **Google & bots** the correct info
+* Create dynamic preview cards with correct **images, titles, etc.**
+
+---
+
+Let me know if you'd like a template or ready-to-use SEO component for easier reuse across your pages.
+
+- yes:
+
+Here's a **ready-to-use SEO metadata template** you can add to any page in your **Next.js 13+/App Router** project using `metadata` (static or dynamic).
+
+---
+
+## ✅ Static SEO Template (Re-usable)
+
+If you have common metadata across pages, you can extract it to a file like `lib/seo.js` or `constants/seo.js`.
+
+### `lib/seo.js`
+
+```js
+export const defaultMetadata = {
+  title: "MyApp - Your Productivity Partner",
+  description: "An all-in-one tool to manage your projects, tasks, and time efficiently.",
+  keywords: ["productivity", "task manager", "project tracking", "MyApp"],
+  authors: [{ name: "Ritik Sharma", url: "https://yourdomain.com" }],
+  creator: "MyApp Team",
+  openGraph: {
+    title: "MyApp - Your Productivity Partner",
+    description: "An all-in-one tool to manage your projects, tasks, and time efficiently.",
+    url: "https://yourdomain.com",
+    siteName: "MyApp",
+    images: [
+      {
+        url: "https://yourdomain.com/images/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "MyApp Open Graph Banner",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MyApp - Your Productivity Partner",
+    description: "Manage your tasks and projects all in one place.",
+    images: ["https://yourdomain.com/images/og-banner.png"],
+    creator: "@myapp",
+  },
+  metadataBase: new URL("https://yourdomain.com"),
+};
+```
+
+---
+
+## 📄 Example Usage in a Static Page
+
+```js
+// app/about/page.js
+import { defaultMetadata } from "@/lib/seo";
+
+export const metadata = {
+  ...defaultMetadata,
+  title: "About Us | MyApp",
+  description: "Learn more about the team behind MyApp.",
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    title: "About Us | MyApp",
+    description: "Learn more about the team behind MyApp.",
+    url: "https://yourdomain.com/about",
+  },
+  twitter: {
+    ...defaultMetadata.twitter,
+    title: "About Us | MyApp",
+    description: "Learn more about the team behind MyApp.",
+  },
+};
+
+export default function AboutPage() {
+  return <div>About Page</div>;
+}
+```
+
+---
+
+## ⚡ Dynamic SEO Example for Blog
+
+```js
+// app/blog/[slug]/page.js
+
+export async function generateMetadata({ params }) {
+  const res = await fetch(`https://api.example.com/posts/${params.slug}`);
+  const post = await res.json();
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://yourdomain.com/blog/${params.slug}`,
+      images: [{ url: post.image }],
+      type: "article",
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+    },
+  };
+}
+```
+
+---
+
+## 🛠 Optional SEO Helpers
+
+You can also add a `robots.txt`, `sitemap.xml`, and structured data via `next-sitemap`.
+
+Would you like help setting up those too?
