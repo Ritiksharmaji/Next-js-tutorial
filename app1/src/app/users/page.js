@@ -17,7 +17,7 @@ async function userList(){
             <h4>UsersPage</h4>
             <ul>
                 {users.map(user => (
-                    <li>
+                    <li key={user.id}>
                         {user.firstName} {user.lastName}
                     </li>
                 ))}

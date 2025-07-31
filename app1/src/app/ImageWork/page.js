@@ -11,7 +11,7 @@ function ImageWork() {
         <Image src={Profile} alt='demo'/>
         <Image src={Profile} width={200} height={200} alt="Profile Image" />
         normal image
-        <img src={Profile.src} alt="Profile Image" width={200} height={200} />
+        {/* <img src={Profile.src} alt="Profile Image" width={200} height={200} /> */}
         <p>Image component from next/image is optimized for performance.</p>
 
 {/* --------------------- Note ---------------------
