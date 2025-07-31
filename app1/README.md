@@ -174,3 +174,26 @@ If you’d like, I can give you a working Next.js example project showing both C
 ### ----- Next JS tutorial in Hindi #23 Conditional style and CSS IN next.js 13.4----------
 1) ![alt text](image-1.png)
 2) 
+
+## ---------  Next JS tutorial in Hindi #25 Font Optimization in next.js 13.4 ----
+1) ![alt text](image-2.png)
+2) basically when we use normal way to use the font in project then each time based on page request will 
+arise on server from where we are calling the font which make extra network call !! 
+3) by using the next js font it won't beacuse it store that one in 'cache' and it won't show in the network tab of browser beacue it woking on the server side not client side. 
+4) GO TO google font and select a particular font type
+5) ![alt text](image-3.png)
+6) ![alt text](image-4.png)
+7) paste that copyed code into top level of our project that is layout.js file:
+8) ![alt text](image-5.png)
+9) ![alt text](image-7.png)
+10) ![alt text](image-6.png)
+11) ![alt text](image-8.png)
+12) ![alt text](image-9.png)
+13) see on the above image no network call and not style applied
+14) ![alt text](image-10.png)
+15) ![alt text](image-11.png)
+
+
+## --------- Next JS tutorial in Hindi #26 generateMetadata for Dynamic meta data in next.js 13.4 --------
+1) ![alt text](image-12.png)
+2) 

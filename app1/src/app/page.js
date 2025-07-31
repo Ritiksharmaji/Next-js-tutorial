@@ -3,6 +3,13 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
+import { Roboto } from "next/font/google";
+const roboto = Roboto({
+  weight:'100',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 
 export default function Home() {
   const router = useRouter();
@@ -38,7 +45,17 @@ export default function Home() {
         <button onClick={() => navigation('/about')}>About Page</button>
         <button onClick={() => navigation('/login')}>Login Page</button>
 
+        {/* this is for font Optimization related below code  */}
+        {/* <div>
+          <p style={{fontFamily:'Roboto',fontWeight:100}}> this is for font Optimization related below code </p>
+        </div> */}
 
+          {/* this is for font Optimization related below to next/font/google */}
+        <div>
+          <p className={roboto.className}>
+            this is for font Optimization related below to next/font/google
+          </p>
+          </div>
       </main>
      
     </div>
