@@ -638,3 +638,104 @@ Would you like help setting up those too?
 
 1) ![alt text](image-13.png)
 2) if we use the html script tag in nex js then that will load the respective library in our project as fully means that library will appy on entire project  but while using script component of next js we can make a library to appy on specific page not on all the project page.
+
+
+## -------------- Next JS tutorial in Hindi #28 Loading Feature | Loader with API data in Next.js 13.4 -----------
+1) ![alt text](image-14.png)
+2) 
+### 🔄 **Loading Feature in Next.js (App Router)**
+
+In **Next.js 13+ (App Router)**, the **loading feature** provides a **built-in way to handle loading UI** when you're waiting for a route or a part of your application to load.
+
+---
+
+### ✅ **What is it?**
+
+When you navigate to a new route or page, especially if it’s using `async` data fetching (like calling an API), Next.js can **automatically show a loading indicator (UI)** before rendering the final content.
+
+This is done by adding a special file:
+
+```
+app/<route>/loading.js
+```
+
+---
+
+### 🧠 **How It Works:**
+
+* Create a file called `loading.js` (or `loading.tsx`) inside any route directory.
+* Next.js will **automatically render it** while the actual content is being **fetched** or **lazy-loaded**.
+* Once data is ready, it **replaces** the loading UI with the actual page content.
+
+---
+
+### 📂 **Example File Structure:**
+
+```
+app/
+├── users/
+│   ├── page.js         ← Actual page
+│   ├── loading.js      ← Shown while page.js is loading
+```
+
+---
+
+### 📌 **Example Code:**
+
+#### `app/users/page.js`
+
+```jsx
+export default async function UsersPage() {
+  const res = await fetch("https://dummyjson.com/users");
+  const data = await res.json();
+
+  return (
+    <div>
+      <h1>User List</h1>
+      <ul>
+        {data.users.map(user => (
+          <li key={user.id}>{user.firstName}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+#### `app/users/loading.js`
+
+```jsx
+export default function Loading() {
+  return <p>Loading user list...</p>;
+}
+```
+
+When you go to `/users`, Next.js:
+
+* First shows `loading.js`
+* Fetches API data
+* Then shows `page.js` content
+
+---
+
+### ✅ **Benefits**
+
+* Built-in and automatic
+* No need for state management like `useState/loading`
+* Great for improving user experience during slow network/API loads
+
+---
+
+### 🔧 Want to Use a Spinner?
+
+You can replace `loading.js` content with:
+
+```jsx
+<div className="spinner"></div>
+```
+
+And style it with CSS or use a spinner component.
+
+---
+
+Let me know if you want a loading spinner or skeleton loader added as well.
