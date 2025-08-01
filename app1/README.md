@@ -1899,3 +1899,464 @@ out/
 ---
 
 ## -------------- Next JS tutorial in Hindi #32 Static Site Generation (SSG) in Next.js 13.4 -----
+1) ![alt text](image-23.png)
+2) 
+```
+Page "/ssg/users/[userId]/page" is missing exported function "generateStaticParams()", which is required with "output: export" config.
+```
+--------
+You're getting the following error in your Next.js app:
+
+> **"Page '/ssg/users/\[userId]/page' is missing exported function 'generateStaticParams()', which is required with 'output: export' config."**
+
+This happens because you're using **Next.js App Router** with **Static Site Generation (SSG)** and your config uses `output: 'export'` in `next.config.js`. In this case, **you must define `generateStaticParams()`** for dynamic routes like `[userId]` to generate pages at build time.
+
+---
+
+### ✅ Solution
+
+You need to export `generateStaticParams` from your `[userId]/page.jsx` file to tell Next.js which user IDs to statically generate.
+
+#### 1. File structure
+
+```
+app/
+├── ssg/
+│   └── users/
+│       └── [userId]/
+│           └── page.jsx  ← Needs generateStaticParams
+```
+
+---
+
+### ✍️ Update `page.jsx` like this:
+
+```js
+// app/ssg/users/[userId]/page.jsx
+import getUsers from '../../../../ssg/service/getUsers';
+
+export async function generateStaticParams() {
+  const users = await getUsers();
+
+  return users.map(user => ({
+    userId: user.id.toString(),
+  }));
+}
+
+export default async function Page({ params }) {
+  const { userId } = params;
+  const users = await getUsers();
+  const user = users.find(u => u.id.toString() === userId);
+
+  if (!user) return <div>User not found</div>;
+
+  return (
+    <div>
+      <h1>Particular User Details Page</h1>
+      <p>Name: {user.name}</p>
+      <p>Email: {user.email}</p>
+    </div>
+  );
+}
+```
+
+---
+
+### 🔧 `getUsers.js` sample (just in case you need it)
+
+```js
+// ssg/service/getUsers.js
+export default async function getUsers() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  return await res.json();
+}
+```
+
+---
+
+### ✅ Summary
+
+* `generateStaticParams` is required for dynamic SSG routes when `output: export` is used.
+* It must return an array of route parameters to statically generate.
+
+3) ![alt text](image-24.png)
+
+Let me know if you want to make it work with fallback for dynamic rendering too!
+
+### -------- Static Site Generation (SSG) in Next.js -------------
+
+### ✅ Static Site Generation (SSG) in **Next.js** – Full Explanation
+
+---
+
+## 📘 What is SSG?
+
+**Static Site Generation (SSG)** means the HTML pages are **generated at build time**, and then served as static files. These pages can be cached and delivered via a CDN, making them very **fast** and **scalable**.
+
+---
+
+## 🚀 How it works in Next.js
+
+* During `next build`, Next.js **pre-renders** pages using the data from `getStaticProps()` or `getStaticPaths()`.
+* It outputs **static HTML** + **JSON data** in the `.next` or `out/` folder (if exported).
+* Perfect for pages that don't change often.
+
+---
+
+## ✅ When to use SSG?
+
+Use **SSG** when:
+
+* Data is **public** and doesn’t change often
+* You want **better performance** (fast load time)
+* You want **SEO-friendly** pages
+
+Examples:
+
+* Blogs
+* Product pages
+* Landing pages
+* Portfolios
+
+---
+
+## 🔧 Key Functions
+
+### 1. `getStaticProps()`
+
+Used to **fetch data at build time** for a given page.
+
+```js
+// pages/index.js
+export async function getStaticProps() {
+  const res = await fetch('https://dummyjson.com/products/1');
+  const product = await res.json();
+
+  return {
+    props: {
+      product,
+    },
+  };
+}
+
+export default function Home({ product }) {
+  return (
+    <div>
+      <h1>{product.title}</h1>
+      <p>{product.description}</p>
+    </div>
+  );
+}
+```
+
+---
+
+### 2. `getStaticPaths()`
+
+Used with dynamic routes to tell Next.js which pages to generate at build time.
+
+```js
+// pages/products/[id].js
+export async function getStaticPaths() {
+  const res = await fetch('https://dummyjson.com/products');
+  const data = await res.json();
+
+  const paths = data.products.map(product => ({
+    params: { id: product.id.toString() },
+  }));
+
+  return { paths, fallback: false }; // false = 404 if not found
+}
+
+export async function getStaticProps({ params }) {
+  const res = await fetch(`https://dummyjson.com/products/${params.id}`);
+  const product = await res.json();
+
+  return { props: { product } };
+}
+
+export default function Product({ product }) {
+  return (
+    <div>
+      <h1>{product.title}</h1>
+      <p>{product.description}</p>
+    </div>
+  );
+}
+```
+
+---
+
+## 📁 Output Structure (after `next build`)
+
+Next.js generates:
+
+* HTML files
+* JSON files (for hydration)
+* Optimized static assets
+
+---
+
+## 📦 SSG with `next export` (optional)
+
+If you want to host your site **without a Node.js server**, you can export static HTML using:
+
+```bash
+npm run build
+npm run export
+```
+
+It generates a `/out` directory that contains static HTML and can be hosted on **GitHub Pages**, **Netlify**, **Vercel**, etc.
+
+---
+
+## 🟡 Limitations of SSG
+
+* Not suitable for data that **changes frequently**
+* Cannot include **user-specific** content (use SSR or Client-side fetching for that)
+
+---
+
+## ✅ Best Practices
+
+| Page Type       | Strategy                            |
+| --------------- | ----------------------------------- |
+| Blog post       | `getStaticProps` + `getStaticPaths` |
+| Static homepage | `getStaticProps`                    |
+| Product listing | `getStaticProps`                    |
+| Auth page       | SSR or Client Fetching              |
+
+---
+
+Would you like a full **starter demo project using SSG**, with blog-style routing and dummy data?
+
+  -yes:
+Here’s a complete **starter demo project using Static Site Generation (SSG)** in **Next.js** with blog-style routing and dummy data.
+
+---
+
+## ✅ Project Structure
+
+```
+my-ssg-blog/
+├── pages/
+│   ├── index.js
+│   └── blog/
+│       └── [id].js
+├── public/
+│   └── favicon.ico
+├── styles/
+│   └── globals.css
+├── data/
+│   └── blogData.js
+├── package.json
+└── next.config.js
+```
+
+---
+
+## 📁 1. `data/blogData.js` – Dummy Blog Data
+
+```js
+// data/blogData.js
+
+const blogPosts = [
+  {
+    id: '1',
+    title: 'Getting Started with Next.js',
+    content: 'Next.js is a React framework for production...',
+  },
+  {
+    id: '2',
+    title: 'Understanding Static Site Generation',
+    content: 'Static Site Generation (SSG) allows Next.js to pre-render pages at build time...',
+  },
+  {
+    id: '3',
+    title: 'Deploying on Vercel',
+    content: 'Vercel is the easiest way to deploy Next.js apps...',
+  },
+];
+
+export default blogPosts;
+```
+
+---
+
+## 📄 2. `pages/index.js` – Blog Home Page
+
+```js
+import Link from 'next/link';
+import blogPosts from '../data/blogData';
+
+export async function getStaticProps() {
+  return {
+    props: {
+      posts: blogPosts,
+    },
+  };
+}
+
+export default function Home({ posts }) {
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>📚 My Blog</h1>
+      <ul>
+        {posts.map(post => (
+          <li key={post.id}>
+            <Link href={`/blog/${post.id}`}>
+              <p style={{ color: 'blue', cursor: 'pointer' }}>{post.title}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+---
+
+## 📄 3. `pages/blog/[id].js` – Blog Detail Page (Dynamic with SSG)
+
+```js
+import blogPosts from '../../data/blogData';
+
+export async function getStaticPaths() {
+  const paths = blogPosts.map(post => ({
+    params: { id: post.id },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const post = blogPosts.find(p => p.id === params.id);
+  return {
+    props: {
+      post,
+    },
+  };
+}
+
+export default function BlogPost({ post }) {
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h2>{post.title}</h2>
+      <p>{post.content}</p>
+    </div>
+  );
+}
+```
+
+---
+
+## 🧑‍🎨 4. `styles/globals.css` – Add global styles
+
+```css
+/* styles/globals.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+}
+```
+
+And in `pages/_app.js`:
+
+```js
+import '../styles/globals.css';
+
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+---
+
+## 📄 5. `next.config.js`
+
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+};
+
+module.exports = nextConfig;
+```
+
+---
+
+## 📦 6. `package.json`
+
+```json
+{
+  "name": "my-ssg-blog",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  }
+}
+```
+
+---
+
+## 🚀 Steps to Run
+
+1. Create the project directory:
+
+   ```bash
+   mkdir my-ssg-blog && cd my-ssg-blog
+   ```
+
+2. Initialize with:
+
+   ```bash
+   npm init -y
+   npm install next react react-dom
+   ```
+
+3. Create folders & paste the files as shown.
+
+4. Run the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Build for production:
+
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+6. To export static HTML:
+
+   ```bash
+   npm run export
+   ```
+
+---
+
+## ✅ Result
+
+* Homepage at `/` lists blog posts.
+* Clicking on a post takes you to `/blog/[id]` page.
+* All pages are statically generated at build time.
+
+---
+
+Would you like me to zip this as a downloadable project or create a GitHub template you can clone?
+
