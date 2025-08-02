@@ -2,6 +2,7 @@
 
 import styles from "./page.module.css";
 import { useState } from 'react';
+console.log(process.env);
 
 export default function Home() {
   return (
