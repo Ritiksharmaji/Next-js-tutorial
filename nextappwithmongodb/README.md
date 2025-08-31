@@ -26,3 +26,227 @@
 7) ![alt text](image-12.png)
 8) ![alt text](image-13.png)
 
+
+
+## -------------- Next JS tutorial in Hindi #47 POST API with MongoDB in  Next.js 13.4 -----
+1) ![alt text](image-14.png)
+2) 
+- request: http://localhost:3000/products
+- ✅ Example POST Request Body (product creation)
+```
+{
+  "name": "iPhone 15 Pro",
+  "comapny": "Apple",
+  "color": "Titanium Blue with red",
+  "description": "Latest Apple flagship with A18 chip",
+  "price": 80000,
+  "category": "electronics",
+  "image": "https://example.com/iphone16.jpg",
+  "stock": 40
+}
+
+
+``` 
+- respose:
+```
+{
+    "message": "✅ Product created successfully",
+    "product": {
+        "name": "iPhone 15 Pro",
+        "comapny": "Apple",
+        "color": "Titanium Blue with red",
+        "description": "Latest Apple flagship with A18 chip",
+        "price": 80000,
+        "category": "electronics",
+        "image": "https://example.com/iphone16.jpg",
+        "stock": 40,
+        "_id": "68b49d5273df4cd3da2726eb",
+        "createdAt": "2025-08-31T19:06:58.906Z",
+        "updatedAt": "2025-08-31T19:06:58.906Z",
+        "__v": 0
+    }
+}
+
+## ---------- PUT --------
+Got it 👍 Since your `PUT` route takes `id` from `params`, the **POST request in Postman** will target your **POST route** (`/api/products`) and send the full product data.
+
+Here’s the correct **Postman request** for **POST (Add new product)**:
+
+---
+
+### 🔹 Method
+
+```
+POST
+```
+
+### 🔹 URL
+
+```
+http://localhost:3000/api/products
+```
+
+---
+
+### 🔹 Headers
+
+```
+Content-Type: application/json
+```
+
+---
+
+### 🔹 Body (Raw → JSON)
+
+```json
+{
+  "name": "MacBook Air M3",
+  "comapny": "Apple",
+  "color": "Silver",
+  "description": "Ultra-thin laptop with Apple M3 chip",
+  "price": 1299,
+  "category": "electronics",
+  "image": "https://example.com/macbook-air.jpg",
+  "stock": 50
+}
+```
+
+---
+
+✅ This will create a new product and save it in MongoDB.
+✅ For `PUT`, you’ll use the same body format but the URL will be:
+
+```
+http://localhost:3000/api/products/<PRODUCT_ID>
+```
+
+--- Example --------
+```
+http://localhost:3000/products/68b49d5273df4cd3da2726eb
+```
+request:
+```
+{
+  "name": "MacBook Air M3",
+  "comapny": "Apple",
+  "color": "Silver",
+  "description": "Ultra-thin laptop with Apple M3 chip",
+  "price": 1299,
+  "category": "electronics",
+  "image": "https://example.com/macbook-air.jpg",
+  "stock": 50
+}
+```
+
+response:
+```
+{
+    "message": "✅ Product updated successfully",
+    "product": {
+        "_id": "68b49d5273df4cd3da2726eb",
+        "name": "MacBook Air M3",
+        "comapny": "Apple",
+        "color": "Silver",
+        "description": "Ultra-thin laptop with Apple M3 chip",
+        "price": 1299,
+        "category": "electronics",
+        "image": "https://example.com/macbook-air.jpg",
+        "stock": 50,
+        "createdAt": "2025-08-31T19:06:58.906Z",
+        "updatedAt": "2025-08-31T19:16:54.755Z",
+        "__v": 0
+    }
+}
+```
+## ----- to get all product till Created: --------
+endpoint: http://localhost:3000/products/
+method: GET
+resposne:
+```
+[
+    {
+        "_id": "68b45e07d1dc8e1ffde20abd",
+        "name": "iPhone 16 Pro",
+        "comapny": "Apple",
+        "color": "Titanium Blue",
+        "description": "Latest Apple flagship with A18 chip",
+        "price": 1299,
+        "category": "electronics",
+        "image": "https://example.com/iphone16.jpg",
+        "stock": 50,
+        "createdAt": "2025-08-31T14:36:55.926Z",
+        "updatedAt": "2025-08-31T14:36:55.926Z",
+        "__v": 0
+    },
+    {
+        "_id": "68b49d5273df4cd3da2726eb",
+        "name": "MacBook Air M3",
+        "comapny": "Apple",
+        "color": "Silver",
+        "description": "Ultra-thin laptop with Apple M3 chip",
+        "price": 1299,
+        "category": "electronics",
+        "image": "https://example.com/macbook-air.jpg",
+        "stock": 50,
+        "createdAt": "2025-08-31T19:06:58.906Z",
+        "updatedAt": "2025-08-31T19:16:54.755Z",
+        "__v": 0
+    }
+]
+```
+
+## ------- DELETE Method ---
+
+## 📌 Postman Request for DELETE
+
+### 🔹 Method
+
+```
+DELETE
+```
+
+### 🔹 URL
+
+```
+http://localhost:3000/api/products/<PRODUCT_ID>
+```
+
+*(replace `<PRODUCT_ID>` with the actual `_id` from MongoDB)*
+
+---
+
+### 🔹 Headers
+
+```
+Content-Type: application/json
+```
+
+### 🔹 Body
+
+❌ **Not required** (you just need the ID in the URL).
+
+---
+
+👉 This will remove the product from MongoDB and return the deleted product in response.
+
+
+## ------ data after deleted in MongoDb -----
+
+```
+[
+    {
+        "_id": "68b45e07d1dc8e1ffde20abd",
+        "name": "iPhone 16 Pro",
+        "comapny": "Apple",
+        "color": "Titanium Blue",
+        "description": "Latest Apple flagship with A18 chip",
+        "price": 1299,
+        "category": "electronics",
+        "image": "https://example.com/iphone16.jpg",
+        "stock": 50,
+        "createdAt": "2025-08-31T14:36:55.926Z",
+        "updatedAt": "2025-08-31T14:36:55.926Z",
+        "__v": 0
+    }
+]
+```
