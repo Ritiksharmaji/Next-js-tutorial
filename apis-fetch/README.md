@@ -10,3 +10,6 @@
 ## -------- Next JS tutorial in Hindi #37 Call Next js API  which create in API routes
 1) ![alt text](image-3.png)
 2) ![alt text](image-4.png)
+
+## -------- Next JS tutorial in Hindi #38 Make API with Post Method Next js 13.4 _ API Routes ------
+1) 
