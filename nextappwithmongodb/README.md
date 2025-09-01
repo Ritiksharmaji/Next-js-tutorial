@@ -250,3 +250,7 @@ Content-Type: application/json
     }
 ]
 ```
+
+## --------- working on client side ----------------
+1) output 
+2) ![alt text](image-15.png)

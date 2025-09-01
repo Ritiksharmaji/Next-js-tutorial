@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Product name is required"],
       trim: true,
     },
-    comapny: {
+    company: {
       type: String,
       required: [true, "company name is required"],
       trim: true,

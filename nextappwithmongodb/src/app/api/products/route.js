@@ -20,9 +20,11 @@ export async function POST(req) {
     await connectDB();
 
     const body = await req.json();
-    const { name, comapny, color, description, price, category, image, stock } = body;
+    const { name, company, color, description, price, category, image, stock } = body;
+    console.log(`backend envoked with POST method`);
+    console.log(`name is: ${name} company is: ${company} color is: ${color} desc is: ${description} price is: ${price} category is: ${category} image is:${image} and stock is${stock}`)
 
-    if (!name || !comapny || !color || !description || !price || !category) {
+    if (!name || !company || !color || !description || !price || !category) {
       return NextResponse.json(
         { error: "Please fill all required fields" },
         { status: 400 }
@@ -31,7 +33,7 @@ export async function POST(req) {
 
     const newProduct = new Product({
       name,
-      comapny,
+      company,
       color,
       description,
       price,
