@@ -10,8 +10,9 @@ const Login = () => {
             <h1>Login Page</h1>
             <p>Please enter your credentials to log in.</p>
             {/* Add your login form here */}
-            <h2>Navigation throw the Link</h2>
+            <h2 style={{padding:"20px", margin:"20px"}}>Navigation throw the Link</h2>
             <Link href="/about" className="link"> About Page </Link>
+            <br></br>
             <Link href="/" className="link"> Home Page </Link>
             <h2>Navigation throw the Navigater</h2>
             <button onClick={() => router.push('/about')}>About</button>
